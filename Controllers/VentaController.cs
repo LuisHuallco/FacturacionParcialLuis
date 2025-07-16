@@ -7,14 +7,14 @@ namespace SistemaFacturacionParcial2.Controllers
 {
     public class VentaController
     {
-        // ✅ Registrar nueva venta
+        // nueva venta
         public void RegistrarVenta(VentaModel venta)
         {
             using (MySqlConnection con = new SistemaFacturacionParcial2.Conexion.Conexion().ObtenerConexion())
             {
                 
 
-                // Insertar la venta
+                //  la venta
                 string queryVenta = @"INSERT INTO ventas (producto_id, cliente_id, fecha_venta, cantidad, precio_total, factura_venta, estado)
                                       VALUES (@producto_id, @cliente_id, @fecha_venta, @cantidad, @precio_total, @factura_venta, @estado)";
                 MySqlCommand cmd = new MySqlCommand(queryVenta, con);
@@ -27,7 +27,7 @@ namespace SistemaFacturacionParcial2.Controllers
                 cmd.Parameters.AddWithValue("@estado", venta.Estado);
                 cmd.ExecuteNonQuery();
 
-                // Actualizar el stock
+                // Actualizar el stock de productos 
                 string queryStock = @"UPDATE productos SET stock = stock - @cantidad WHERE id = @producto_id";
                 MySqlCommand cmdStock = new MySqlCommand(queryStock, con);
                 cmdStock.Parameters.AddWithValue("@cantidad", venta.Cantidad);
@@ -36,7 +36,7 @@ namespace SistemaFacturacionParcial2.Controllers
             }
         }
 
-        // ✅ Obtener historial de ventas
+        //  historial de ventas
         public List<VentaModel> ObtenerHistorialVentas()
         {
             var lista = new List<VentaModel>();
@@ -72,7 +72,7 @@ namespace SistemaFacturacionParcial2.Controllers
             return lista;
         }
 
-        // ✅ Anular una venta
+        // Anular una factura
         public void AnularVentaPorFactura(string factura)
         {
             using (var con = new Conexion.Conexion().ObtenerConexion())
